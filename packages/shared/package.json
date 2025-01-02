@@ -1,0 +1,13 @@
+{
+  "name": "@vue/shared",
+  "version": "1.0.0",
+  "description": "",
+  "module": "dist/shared.esm-bundler.js",
+  "unpkg": "dist/shared.global.js",
+  "buildOptions": {
+    "formats": [
+      "esm-bundler",
+      "cjs"
+    ]
+  }
+}
