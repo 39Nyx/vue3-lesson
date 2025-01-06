@@ -10,9 +10,14 @@ export let activeEffect: ReactiveEffect | undefined;
 class ReactiveEffect {
     private readonly fn: Function;
     public active: boolean = true;
+    _trackedId: number = 0;
+    deps: Map<ReactiveEffect, number>[] = [];
+    depsLength: number = 0;
+    scheduler: Function | undefined;
 
     constructor(fn: Function, scheduler?: Function) {
         this.fn = fn;
+        this.scheduler = scheduler;
     }
 
     run() {
@@ -25,6 +30,21 @@ class ReactiveEffect {
             this.fn();
         } finally {
             activeEffect = lastEffect;
+        }
+    }
+}
+
+export function trackEffect(effect: ReactiveEffect, dep: Map<ReactiveEffect, number>) {
+    dep.set(effect, effect._trackedId);
+    effect.deps[effect.depsLength] = dep;
+    effect.depsLength++;
+}
+
+export function triggerEffect(dep: Map<ReactiveEffect, number>) {
+    for (const effect of dep.keys()) {
+        debugger
+        if (effect.scheduler) {
+            effect.scheduler();
         }
     }
 }
