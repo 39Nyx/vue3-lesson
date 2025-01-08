@@ -42,7 +42,6 @@ export function trackEffect(effect: ReactiveEffect, dep: Map<ReactiveEffect, num
 
 export function triggerEffect(dep: Map<ReactiveEffect, number>) {
     for (const effect of dep.keys()) {
-        debugger
         if (effect.scheduler) {
             effect.scheduler();
         }
